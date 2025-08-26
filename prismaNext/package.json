@@ -1,0 +1,27 @@
+{
+  "name": "oxium-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome check",
+    "format": "biome format --write"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.14.0",
+    "joi": "^18.0.1",
+    "next": "15.5.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-hot-toast": "^2.6.0",
+    "sonner": "^2.0.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@tailwindcss/postcss": "^4",
+    "prisma": "^6.14.0",
+    "tailwindcss": "^4"
+  }
+}
