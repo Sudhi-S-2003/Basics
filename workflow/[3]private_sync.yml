@@ -1,0 +1,29 @@
+name: Auto Sync Fork
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }} # still fine for pushing to your fork
+
+      - name: Add upstream
+        run: git remote add upstream https://x-access-token:${{ secrets.UPSTREAM_TOKEN }}@github.com/sooraj-RK/Oxium-website.git
+
+      - name: Sync with upstream
+        run: |
+          git fetch upstream
+          git checkout main
+          git reset --hard upstream/main
+          git push origin main --force

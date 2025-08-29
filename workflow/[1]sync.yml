@@ -1,0 +1,29 @@
+name: Auto Sync Fork
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # runs every day at midnight UTC
+  workflow_dispatch: # allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v3
+        with:
+          repository: Sudhi-S-2003/Oxium-website
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Add upstream
+        run: git remote add upstream https://github.com/sooraj-RK/Oxium-website.git
+
+      - name: Fetch upstream
+        run: git fetch upstream
+
+      - name: Merge upstream -> main
+        run: |
+          git checkout main
+          git merge upstream/main
+          git push origin main
