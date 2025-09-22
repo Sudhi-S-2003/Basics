@@ -1,103 +1,199 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { signIn } from "next-auth/react";
+import { useState } from "react";
+
+export default function SignInPage() {
+  const [method, setMethod] = useState("google");
+  const [email, setEmail] = useState("");
+  const [emailOtp, setEmailOtp] = useState("");
+  const [phone, setPhone] = useState("");
+  const [phoneOtp, setPhoneOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const login = async () => {
+    if (method === "google") {
+      await signIn("google");
+    }
+
+    if (method === "magic-link") {
+      if (!email) return alert("Enter your email");
+      setLoading(true);
+      const res = await signIn("email", { email, redirect: false, });
+      setLoading(false);
+      res?.ok ? alert("Check your email!") : alert("Failed to send link");
+    }
+
+    if (method === "email-otp") {
+      if (!email || !emailOtp) return alert("Email and OTP required");
+      const res = await signIn("email-otp", { email, otp: emailOtp, redirect: false });
+      res?.ok ? (window.location.href = "/") : alert("Login failed");
+    }
+
+    if (method === "phone-otp") {
+      if (!phone || !phoneOtp) return alert("Phone and OTP required");
+      const res = await signIn("phone-otp", { phone, otp: phoneOtp, redirect: false });
+      res?.ok ? (window.location.href = "/") : alert("Login failed");
+    }
+  };
+
+  const sendOtp = async () => {
+    if (method === "email-otp") {
+      if (!email) return alert("Enter email");
+      setLoading(true);
+      await fetch("/api/send-email-otp", {
+        method: "POST",
+        body: JSON.stringify({ email }),
+        headers: { "Content-Type": "application/json" },
+      });
+      setLoading(false);
+      alert("OTP sent to email");
+    }
+
+    if (method === "phone-otp") {
+      if (!phone) return alert("Enter phone");
+      setLoading(true);
+      await fetch("/api/send-phone-otp", {
+        method: "POST",
+        body: JSON.stringify({ phone }),
+        headers: { "Content-Type": "application/json" },
+      });
+      setLoading(false);
+      alert("OTP sent to phone");
+    }
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div style={styles.container}>
+      <h2 style={styles.title}>Sign In</h2>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      {/* Select login method */}
+      <select
+        style={styles.select}
+        value={method}
+        onChange={(e) => setMethod(e.target.value)}
+      >
+        <option value="google">Google</option>
+        <option value="magic-link">Email (Magic Link)</option>
+        <option value="email-otp">Email OTP</option>
+        <option value="phone-otp">Phone OTP</option>
+      </select>
+
+      {/* Google Sign-In */}
+      {method === "google" && (
+        <button style={styles.btn} onClick={login}>
+          Continue with Google
+        </button>
+      )}
+
+      {/* Magic Link */}
+      {method === "magic-link" && (
+        <>
+          <input
+            style={styles.input}
+            placeholder="Your email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <button style={styles.btn} onClick={login} disabled={loading}>
+            {loading ? "Sending..." : "Send Magic Link"}
+          </button>
+        </>
+      )}
+
+      {/* Email OTP */}
+      {method === "email-otp" && (
+        <>
+          <input
+            style={styles.input}
+            placeholder="Your email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <button style={styles.btn} onClick={sendOtp} disabled={loading}>
+            {loading ? "Sending..." : "Send OTP"}
+          </button>
+          <input
+            style={styles.input}
+            placeholder="Enter OTP"
+            value={emailOtp}
+            onChange={(e) => setEmailOtp(e.target.value)}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <button style={styles.btn} onClick={login}>
+            Login
+          </button>
+        </>
+      )}
+
+      {/* Phone OTP */}
+      {method === "phone-otp" && (
+        <>
+          <input
+            style={styles.input}
+            placeholder="Your phone"
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          <button style={styles.btn} onClick={sendOtp} disabled={loading}>
+            {loading ? "Sending..." : "Send OTP"}
+          </button>
+          <input
+            style={styles.input}
+            placeholder="Enter OTP"
+            value={phoneOtp}
+            onChange={(e) => setPhoneOtp(e.target.value)}
+          />
+          <button style={styles.btn} onClick={login}>
+            Login
+          </button>
+        </>
+      )}
     </div>
   );
 }
+
+const styles = {
+  container: {
+    maxWidth: 400,
+    margin: "2rem auto",
+    padding: "2rem",
+    border: "1px solid #eee",
+    borderRadius: "10px",
+    fontFamily: "sans-serif",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+    backgroundColor: "#fff",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: "1.5rem",
+    marginBottom: "1rem",
+  },
+  select: {
+    width: "100%",
+    padding: "0.75rem",
+    fontSize: "1rem",
+    marginBottom: "1.5rem",
+  },
+  input: {
+    width: "100%",
+    padding: "0.75rem",
+    marginBottom: "1rem",
+    fontSize: "1rem",
+    borderRadius: "6px",
+    border: "1px solid #ccc",
+  },
+  btn: {
+    width: "100%",
+    padding: "0.75rem",
+    fontSize: "1rem",
+    backgroundColor: "#0070f3",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    marginBottom: "1rem",
+  },
+};
