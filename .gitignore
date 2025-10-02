@@ -1,2 +1,6 @@
 json-download/.gitignore
 json-download-express/.gitignore
+**/node_modules
+**/.next
+**/.gitignore
+**/.git

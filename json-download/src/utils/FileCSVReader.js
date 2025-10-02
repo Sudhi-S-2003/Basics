@@ -28,7 +28,7 @@ const FileCSVReader = (file) => {
         });
 
         resolve(data);
-      } catch (err) {
+      } catch  {
         reject(new Error("Invalid CSV content"));
       }
     };

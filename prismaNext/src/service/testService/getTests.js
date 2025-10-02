@@ -9,7 +9,7 @@ const getTests = async (req) => {
   const skip = (page - 1) * limit;
 
   // Fetch data and total count in parallel
-  const [tests, total] = await Promise.all([
+  const [tests, total] = await Promise<any>.all([
     prisma.test.findMany({
       skip,
       take: limit,

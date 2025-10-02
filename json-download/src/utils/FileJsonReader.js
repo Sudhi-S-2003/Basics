@@ -16,7 +16,7 @@ const FileJsonReader = (file) => {
       try {
         const json = JSON.parse(event.target.result);
         resolve(json);
-      } catch (err) {
+      } catch  {
         reject(new Error("Invalid JSON content"));
       }
     };

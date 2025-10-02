@@ -9,18 +9,18 @@ if (!MONGODB_URI) {
 let cached = global.mongoose;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = global.mongoose = { conn: null, Promise<any>: null };
 }
 
 export async function dbConnect() {
   if (cached.conn) return cached.conn;
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
+  if (!cached.Promise<any>) {
+    cached.Promise<any> = mongoose.connect(MONGODB_URI).then((mongoose) => {
       return mongoose;
     });
   }
 
-  cached.conn = await cached.promise;
+  cached.conn = await cached.Promise<any>;
   return cached.conn;
 }

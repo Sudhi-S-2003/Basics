@@ -6,13 +6,13 @@ const uri = process.env.MONGODB_URI;
 if (!uri) throw new Error("Please define the MONGODB_URI environment variable");
 
 let client;
-let clientPromise;
+let clientPromise<any>;
 
-if (!global._mongoClientPromise) {
+if (!global._mongoClientPromise<any>) {
   client = new MongoClient(uri);
-  global._mongoClientPromise = client.connect();
+  global._mongoClientPromise<any> = client.connect();
 }
 
-clientPromise = global._mongoClientPromise;
+clientPromise<any> = global._mongoClientPromise<any>;
 
-export default clientPromise;
+export default clientPromise<any>;

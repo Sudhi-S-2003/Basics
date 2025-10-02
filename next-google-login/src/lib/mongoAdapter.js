@@ -1,4 +1,4 @@
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "./mongodb";
+import clientPromise<any> from "./mongodb";
 
-export const adapter = MongoDBAdapter(clientPromise);
+export const adapter = MongoDBAdapter(clientPromise<any>);
