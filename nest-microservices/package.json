@@ -1,0 +1,13 @@
+{
+  "name": "microservices-root",
+  "private": true,
+  "scripts": {
+    "start:auth": "npm --prefix auth-service run start:dev",
+    "start:order": "npm --prefix order-service run start:dev",
+    "start:gateway": "npm --prefix gateway-service run start:dev",
+    "start:all": "concurrently \"npm run start:auth\" \"npm run start:order\" \"npm run start:gateway\""
+  },
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

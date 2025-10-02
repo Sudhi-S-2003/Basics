@@ -1,0 +1,15 @@
+{
+  "name": "microservices-tcp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start:auth": "cd auth-service && npm start",
+    "start:product": "cd product-service && npm start",
+    "start:order": "cd order-service && npm start",
+    "start:gateway": "cd gateway && npm start",
+    "start:all": "concurrently \"npm run start:auth\" \"npm run start:product\" \"npm run start:order\" \"npm run start:gateway\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
