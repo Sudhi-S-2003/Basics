@@ -1,0 +1,17 @@
+{
+  "name": "microservices-project",
+  "scripts": {
+    "start:all": "concurrently \"npm run start:auth\" \"npm run start:user\" \"npm run start:product\" \"npm run start:order\" \"npm run start:gateway\"",
+    "start:auth": "cd auth-service && npm run start",
+    "start:user": "cd user-service && npm run start",
+    "start:product": "cd product-service && npm run start",
+    "start:order": "cd order-service && npm run start",
+    "start:gateway": "cd gateway && npm run start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@nestjs/microservices": "^11.1.6"
+  }
+}

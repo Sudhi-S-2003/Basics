@@ -1,0 +1,25 @@
+{
+  "name": "microservices-v2",
+  "version": "1.0.0",
+  "scripts": {
+    "start:all": "concurrently \"npm run start:auth\" \"wait-on tcp:127.0.0.1:4001 && npm run start:user\" \"wait-on tcp:127.0.0.1:4001 && npm run start:product\" \"wait-on tcp:127.0.0.1:4001 tcp:127.0.0.1:4002 tcp:127.0.0.1:4003 && npm run start:order\" \"wait-on tcp:127.0.0.1:4001 tcp:127.0.0.1:4002 tcp:127.0.0.1:4003 tcp:127.0.0.1:4004 && npm run start:gateway\"",
+    "start:auth": "cd auth-service && npm run start",
+    "start:user": "cd user-service && npm run start",
+    "start:product": "cd product-service && npm run start",
+    "start:order": "cd order-service && npm run start",
+    "start:gateway": "cd gateway && npm run start",
+
+    "dev:all": "concurrently \"npm run dev:auth\" \"wait-on tcp:127.0.0.1:4001 && npm run dev:user\" \"wait-on tcp:127.0.0.1:4001 && npm run dev:product\" \"wait-on tcp:127.0.0.1:4001 tcp:127.0.0.1:4002 tcp:127.0.0.1:4003 && npm run dev:order\" \"wait-on tcp:127.0.0.1:4001 tcp:127.0.0.1:4002 tcp:127.0.0.1:4003 tcp:127.0.0.1:4004 && npm run dev:gateway\"",
+    "dev:auth": "cd auth-service && npm run start:dev",
+    "dev:user": "cd user-service && npm run start:dev",
+    "dev:product": "cd product-service && npm run start:dev",
+    "dev:order": "cd order-service && npm run start:dev",
+    "dev:gateway": "cd gateway && npm run start:dev"
+  },
+  "dependencies": {
+    "wait-on": "^7.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

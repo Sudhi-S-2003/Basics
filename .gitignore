@@ -4,3 +4,6 @@ json-download-express/.gitignore
 **/.next
 **/.gitignore
 **/.git
+
+**/**/.gitignore
+**/**/.git
