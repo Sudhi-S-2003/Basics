@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "product": "Mouse",
+    "quantity": 3,
+    "price": 1499.99
+  }
+]
