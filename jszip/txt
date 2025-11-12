@@ -1,0 +1,10 @@
+http://localhost:3000/s3?uris=https://laza-dev-bucket.s3.ap-south-1.amazonaws.com/boardRequestDistributor%2F1755071501115-20250520_001912.jpg,https://laza-dev-bucket.s3.ap-south-1.amazonaws.com/boardRequestDistributor%2F1755072108758-20250520_001912.jpg
+
+
+https://laza-dev-bucket.s3.ap-south-1.amazonaws.com/test-zips%2F1761925031638-files.zip
+
+
+http://localhost:3000/s3?uris=https://laza-dev-bucket.s3.ap-south-1.amazonaws.com/boardRequestDistributor%2F1755071501115-20250520_001912.jpg,https://laza-dev-bucket.s3.ap-south-1.amazonaws.com/test-zips%2F1761925031638-files.zip
+
+
+https://laza-dev-bucket.s3.ap-south-1.amazonaws.com/test-zips%2F1761925091020-files.zip

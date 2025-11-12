@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Download ZIP</title>
+</head>
+<body>
+  <h1>Download ZIP Example</h1>
+  <button id="downloadBtn">Download ZIP</button>
+
+  <script>
+    document.getElementById("downloadBtn").addEventListener("click", async () => {
+      const payload = {
+        awsFiles: [
+          { uri: "https://laza-dev-bucket.s3.ap-south-1.amazonaws.com/boardRequestDistributor%2F1755071501115-20250520_001912.jpg", name: "file1.jpg" }
+        ],
+        pdfData: [
+          { name: "report1.pdf", data: { name: "Alice" } },
+          { name: "report2.pdf", data: { name: "Bob" } }
+        ]
+      };
+
+      try {
+        const response = await fetch("http://localhost:3000/download-zip", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error("Download failed");
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "download.zip";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  </script>
+</body>
+</html>
