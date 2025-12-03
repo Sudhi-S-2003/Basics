@@ -1,0 +1,25 @@
+name: Validate PR Checklist
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  checklist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate checklist
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const core = require("@actions/core");
+            const body = context.payload.pull_request.body || "";
+
+            // Count how many checkboxes are marked as checked
+            const checked = (body.match(/- \[x\]/gi) || []).length;
+
+            if (checked < 5) {
+              core.setFailed(`❌ PR requires at least 5 completed checklist items. Currently checked: ${checked}`);
+            } else {
+              console.log(`✔ Checklist OK (${checked} items checked)`);
+            }

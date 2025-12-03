@@ -48,3 +48,4 @@ Paste any new input field or form code added in this PR:
 <!-- Example:
 <input type="text" name="username" placeholder="Enter username" />
 -->
+```
