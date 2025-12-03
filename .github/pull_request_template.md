@@ -11,7 +11,7 @@ Why was this change required?
 ## 🧪 How to Test
 Provide test steps:
 
-
+1. please test manually 2 time
 ---
 
 ## 🔑 Environment Variables
