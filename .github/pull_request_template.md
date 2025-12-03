@@ -10,7 +10,7 @@ Why was this change required?
 
 ## 🧪 How to Test
 Provide test steps:
-
+- [ ] Manually Test Done
 
 ---
 
@@ -41,11 +41,3 @@ Does this PR break any existing API?
 
 ---
 
-## 🧩 Input Fields Code
-Paste any new input field or form code added in this PR:
-
-```html
-<!-- Example:
-<input type="text" name="username" placeholder="Enter username" />
--->
-```
