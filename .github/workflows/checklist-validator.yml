@@ -1,0 +1,33 @@
+name: Validate PR Checklist
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  checklist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate checklist
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const body = context.payload.pull_request.body || "";
+
+            // Count checked checkboxes
+            const checked = (body.match(/- \[x\]/gi) || []).length;
+
+            // Check required checkbox: "Manually Test Done"
+            const manuallyTestChecked = body.includes("- [x] Manually Test Done");
+
+            if (checked < 5) {
+              core.setFailed(`❌ PR requires at least 5 completed checklist items. Currently checked: ${checked}`);
+              return;
+            }
+
+            if (!manuallyTestChecked) {
+              core.setFailed("❌ 'Manually Test Done' must be checked.");
+              return;
+            }
+
+            console.log(`✔ Checklist OK (${checked} items checked)`);
