@@ -16,9 +16,10 @@
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "baseUrl": "src",
     "paths": {
       "@components/*": [
-        "./src/components/*"
+        "components/*"
       ]
     }, /* Linting */
     "strict": true,
