@@ -12,7 +12,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const core = require("@actions/core");
             const body = context.payload.pull_request.body || "";
 
             // Count how many checkboxes are marked as checked
